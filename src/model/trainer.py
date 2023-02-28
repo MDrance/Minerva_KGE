@@ -9,7 +9,7 @@ import logging
 import numpy as np
 import tensorflow as tf
 from agent import Agent
-from code.options import read_options
+from src.options import read_options
 from environment import env
 import codecs
 from collections import defaultdict
@@ -20,7 +20,7 @@ from baseline import ReactiveBaseline
 from nell_eval import nell_eval
 from scipy.special import logsumexp as lse
 
-from code.KGE import ConvE_wn18rr_model
+from src.KGE import ConvE_wn18rr_model
 
 logger = logging.getLogger()
 logging.basicConfig(stream=sys.stdout, level=logging.DEBUG)
