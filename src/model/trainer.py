@@ -552,7 +552,7 @@ if __name__ == '__main__':
 
     #Training
     if not options['load_model']:
-        if options.train_KGE:
+        if options["train_KGE"]:
             KGE_model = ConvE_wn18rr_model(options)
             KGE_model.model.to("cuda")
             mrr, hit1, hit3, hit10 = KGE_model.train()
