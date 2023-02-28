@@ -8,9 +8,9 @@ import os
 import logging
 import numpy as np
 import tensorflow as tf
-from code.model.agent import Agent
+from agent import Agent
 from code.options import read_options
-from code.model.environment import env
+from environment import env
 import codecs
 from collections import defaultdict
 import gc
