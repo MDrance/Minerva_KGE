@@ -1,0 +1,10 @@
+saved_models/
+_*
+output/
+LICENSE
+report.txt
+requirements.txt
+WN18RR_Conve*
+README.md
+datasets/data_preprocessed/erias
+datasets/data_preprocessed/hetionet
