@@ -16,8 +16,8 @@ from collections import defaultdict
 import gc
 import resource
 import sys
-from code.model.baseline import ReactiveBaseline
-from code.model.nell_eval import nell_eval
+from baseline import ReactiveBaseline
+from nell_eval import nell_eval
 from scipy.special import logsumexp as lse
 
 from code.KGE import ConvE_wn18rr_model
