@@ -37,7 +37,7 @@ class Agent(object):
         with tf.compat.v1.variable_scope("action_lookup_table"):
             r_emb = torch.load(params["emb_dir"] + "rel_embedding.pt")
             print("R embeddings loaded from {}".format(params["emb_dir"]))
-            r_emb = r_emb.cpu.detach().numpy()
+            r_emb = r_emb.detach().numpy()
             self.action_embedding_placeholder = tf.compat.v1.placeholder(tf.float32,
                                                                [self.action_vocab_size, 2 * self.embedding_size])
 
@@ -50,7 +50,7 @@ class Agent(object):
         with tf.compat.v1.variable_scope("entity_lookup_table"):
             e_emb = torch.load(params["emb_dir"] + "node_embedding.pt")
             print("E embeddings loaded from {}".format(params["emb_dir"]))
-            e_emb = e_emb.cpu.detach().numpy()
+            e_emb = e_emb.detach().numpy()
             self.entity_embedding_placeholder = tf.compat.v1.placeholder(tf.float32,
                                                                [self.entity_vocab_size, 2 * self.embedding_size])
             self.entity_lookup_table = tf.compat.v1.get_variable("entity_lookup_table",
