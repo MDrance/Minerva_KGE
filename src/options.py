@@ -47,9 +47,9 @@ def read_options():
     parser.add_argument("--load_model", default=0, type=int)
     parser.add_argument("--nell_evaluation", default=0, type=int)
     
-    parser.add_argument("--train_KGE", default=False, action="store_true",
+    parser.add_argument("--train_KGE", action="store_true",
                          help="True if want to train the KGE model to save the embeddings, false if training minerva \
-                               with these embeddings")
+                               with these embeddings, default False")
 
     try:
         parsed = vars(parser.parse_args())

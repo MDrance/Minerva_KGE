@@ -553,6 +553,7 @@ if __name__ == '__main__':
     #Training
     if not options['load_model']:
         if options["train_KGE"]:
+            print("Training KGE model")
             KGE_model = ConvE_wn18rr_model(options)
             KGE_model.model.to("cuda")
             mrr, hit1, hit3, hit10 = KGE_model.train()
@@ -565,6 +566,7 @@ if __name__ == '__main__':
             logger.info("Embeddings saved at {}".format(options["emb_dir"]))
         
         else:
+            print("Training MHR model")
             trainer = Trainer(options)
             with tf.compat.v1.Session(config=config) as sess:
                 sess.run(trainer.initialize())
