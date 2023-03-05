@@ -24,7 +24,7 @@ class ConvE_wn18rr_model():
         self.evaluator = RankBasedEvaluator()
 
     def train(self):
-        losses = self.training_loop.train(triples_factory=self.train_triples, num_epochs=601, batch_size=256, label_smoothing=0.003261077338126352, 
+        losses = self.training_loop.train(triples_factory=self.train_triples, num_epochs=1000, batch_size=256, label_smoothing=0.003261077338126352, 
                                           use_tqdm_batch=False)
         val_metrics = self.evaluator.evaluate(model = self.model, mapped_triples=self.test_triples.mapped_triples,
                                               additional_filter_triples=[self.train_triples.mapped_triples,self.val_triples.mapped_triples])
