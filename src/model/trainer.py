@@ -551,21 +551,21 @@ if __name__ == '__main__':
 
 
     #Training
-    if not options['load_model']:
-        if options["train_KGE"]:
-            print("Training KGE model")
-            KGE_model = ConvE_wn18rr_model(options)
-            KGE_model.model.to("cuda")
-            mrr, hit1, hit3, hit10 = KGE_model.train()
-            logger.info("MRR : {0}, Hit@1 : {1}, Hit@3 : {2}, Hit@10 : {3}".format(mrr, hit1, hit3, hit10))
-            e_emb = KGE_model.model.entity_representations[0]()
-            r_emb = KGE_model.model.relation_representations[0]()
-            torch.save(e_emb, options["emb_dir"] + "node_embedding.pt")
-            torch.save(r_emb, options["emb_dir"] + "rel_embedding.pt")
-            logger.info("Nodes embeddings : {}, Rel embeddings : {}".format(e_emb.size(), r_emb.size()))
-            logger.info("Embeddings saved at {}".format(options["emb_dir"]))
-        
-        else:
+    if options["train_KGE"]:
+        print("Training KGE model")
+        KGE_model = ConvE_wn18rr_model(options)
+        KGE_model.model.to("cuda")
+        mrr, hit1, hit3, hit10 = KGE_model.train()
+        logger.info("MRR : {0}, Hit@1 : {1}, Hit@3 : {2}, Hit@10 : {3}".format(mrr, hit1, hit3, hit10))
+        e_emb = KGE_model.model.entity_representations[0]()
+        r_emb = KGE_model.model.relation_representations[0]()
+        torch.save(e_emb, options["emb_dir"] + "node_embedding.pt")
+        torch.save(r_emb, options["emb_dir"] + "rel_embedding.pt")
+        logger.info("Nodes embeddings : {}, Rel embeddings : {}".format(e_emb.size(), r_emb.size()))
+        logger.info("Embeddings saved at {}".format(options["emb_dir"]))
+
+    else:    
+        if not options['load_model']:
             print("Training MHR model")
             trainer = Trainer(options)
             with tf.compat.v1.Session(config=config) as sess:
@@ -579,31 +579,31 @@ if __name__ == '__main__':
 
             tf.compat.v1.reset_default_graph()
         #Testing on test with best model
-    else:
-        logger.info("Skipping training")
-        logger.info("Loading model from {}".format(options["model_load_dir"]))
+        else:
+            logger.info("Skipping training")
+            logger.info("Loading model from {}".format(options["model_load_dir"]))
 
-    trainer = Trainer(options)
-    if options['load_model']:
-        save_path = options['model_load_dir']
-        path_logger_file = trainer.path_logger_file
-        output_dir = trainer.output_dir
-    with tf.compat.v1.Session(config=config) as sess:
-        trainer.initialize(restore=save_path, sess=sess)
+        trainer = Trainer(options)
+        if options['load_model']:
+            save_path = options['model_load_dir']
+            path_logger_file = trainer.path_logger_file
+            output_dir = trainer.output_dir
+        with tf.compat.v1.Session(config=config) as sess:
+            trainer.initialize(restore=save_path, sess=sess)
 
-        trainer.test_rollouts = 100
+            trainer.test_rollouts = 100
 
-        os.mkdir(path_logger_file + "/" + "test_beam")
-        trainer.path_logger_file_ = path_logger_file + "/" + "test_beam" + "/paths"
-        with open(output_dir + '/scores.txt', 'a') as score_file:
-            score_file.write("Test (beam) scores with best model from " + save_path + "\n")
-        trainer.test_environment = trainer.test_test_environment
-        trainer.test_environment.test_rollouts = 100
+            os.mkdir(path_logger_file + "/" + "test_beam")
+            trainer.path_logger_file_ = path_logger_file + "/" + "test_beam" + "/paths"
+            with open(output_dir + '/scores.txt', 'a') as score_file:
+                score_file.write("Test (beam) scores with best model from " + save_path + "\n")
+            trainer.test_environment = trainer.test_test_environment
+            trainer.test_environment.test_rollouts = 100
 
-        trainer.test(sess, beam=True, print_paths=True, save_model=False)
+            trainer.test(sess, beam=True, print_paths=True, save_model=False)
 
 
-        print(options['nell_evaluation'])
-        if options['nell_evaluation'] == 1:
-            nell_eval(path_logger_file + "/" + "test_beam/" + "pathsanswers", trainer.data_input_dir+'/sort_test.pairs' )
+            print(options['nell_evaluation'])
+            if options['nell_evaluation'] == 1:
+                nell_eval(path_logger_file + "/" + "test_beam/" + "pathsanswers", trainer.data_input_dir+'/sort_test.pairs' )
 
