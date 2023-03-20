@@ -15,5 +15,5 @@ train_entity_embeddings=0
 train_relation_embeddings=0
 base_output_dir="output/WN18RR/"
 load_model=0
-model_load_dir=""
+model_load_dir="saved_models/model.ckpt"
 nell_evaluation=0
