@@ -20,7 +20,7 @@ from baseline import ReactiveBaseline
 from nell_eval import nell_eval
 from scipy.special import logsumexp as lse
 
-from src.KGE import ConvE_wn18rr_model
+from src.KGE import ConvE_wn18rr_model, ConvE_fb15k_model
 
 logger = logging.getLogger()
 logging.basicConfig(stream=sys.stdout, level=logging.DEBUG)
@@ -553,7 +553,7 @@ if __name__ == '__main__':
     #Training
     if options["train_KGE"]:
         print("Training KGE model")
-        KGE_model = ConvE_wn18rr_model(options)
+        KGE_model = ConvE_fb15k_model(options)
         KGE_model.model.to("cuda")
         mrr, hit1, hit3, hit10 = KGE_model.train()
         logger.info("MRR : {0}, Hit@1 : {1}, Hit@3 : {2}, Hit@10 : {3}".format(mrr, hit1, hit3, hit10))
