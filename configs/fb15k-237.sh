@@ -15,5 +15,5 @@ train_entity_embeddings=1
 train_relation_embeddings=1
 base_output_dir="output/fb15k-237/"
 load_model=0
-model_load_dir="saved_models/fb15k-237"
+model_load_dir="saved_models/model.ckpt"
 nell_evaluation=0
